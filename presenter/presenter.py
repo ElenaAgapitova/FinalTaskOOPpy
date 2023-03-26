@@ -1,4 +1,5 @@
 """Модуль, реализующий класс Presenter"""
+from model.file_reader import FileReader
 
 
 class Presenter:
@@ -7,10 +8,19 @@ class Presenter:
     Принимает на вход экземпляры View и Notebook и связывает их между собой.
     """
 
-    def __init__(self, view, notebook):
+    def __init__(self, view, notebook, path):
         self.__view = view
         self.__notebook = notebook
         self.__view.set_presenter(self)
+        self.file = FileReader(path)
+
+    def open_file(self):
+        """Чтение файла и заполнение записной книжки"""
+        self.__notebook = self.file.file_read(self.__notebook)
+
+    def save(self):
+        """Сохранение изменений"""
+        self.file.save_changes(self.__notebook)
 
     def is_full(self):
         """
@@ -21,7 +31,7 @@ class Presenter:
 
     def add_note(self, text_note):
         """Добавляет новую запись в записную книжку."""
-        self.__notebook.add(text_note)
+        self.__notebook.add_note(text_note)
 
     def remove_note(self, index):
         """Удаляет запись в записной книжке по указанному индексу."""

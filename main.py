@@ -6,9 +6,6 @@ from view.console import Console
 
 if __name__ == '__main__':
     model = Notebook()
-    model.add("первая заметка")
-    model.add("вторая заметка")
-
     view = Console()
-    presenter = Presenter(view, model)
+    presenter = Presenter(view, model, 'notes.txt')
     view.start()

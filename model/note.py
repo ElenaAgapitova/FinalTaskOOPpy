@@ -15,7 +15,7 @@ class Note:
         2. change_text: изменить текст заметки.
     """
 
-    def __init__(self, text_note, data=datetime.today().strftime('%d.%m.%Y')):
+    def __init__(self, data, text_note):
         self.__text_note = text_note
         self.__data = data
 

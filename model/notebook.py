@@ -1,4 +1,5 @@
 """Модуль, реализующий класс для создания записной книжки и работы с ней"""
+from datetime import datetime
 
 from model.note import Note
 
@@ -26,9 +27,9 @@ class Notebook:
         """Возвращает длину записной книжки"""
         return len(self.__notes)
 
-    def add(self, text_note):
+    def add_note(self, text_note):
         """Добавить заметку в записную книжку"""
-        note = Note(text_note)
+        note = Note(datetime.today().strftime('%d.%m.%Y'), text_note)
         self.__notes.append(note)
 
     def remove(self, index):
@@ -49,3 +50,7 @@ class Notebook:
     def is_full(self):
         """Возвращает True, если в записной книжке есть записи"""
         return bool(self.__notes)
+
+    def get_notes(self):
+        """Возвращает список заметок"""
+        return self.__notes
