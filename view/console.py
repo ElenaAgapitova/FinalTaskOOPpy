@@ -20,7 +20,7 @@ class Console(View):
         if self.presenter.is_full():
             print(self.presenter.get_notebook())
         else:
-            print("\nВ записной книжке нет записей!")
+            print("\nВ записной книжке нет заметок!")
 
     def remove_note(self):
         """Метод для удаления заметки по номеру"""
@@ -28,9 +28,9 @@ class Console(View):
             index = Validator.get_index(self.presenter.get_size_notebook(),
                                         "\nВведите номер заметки: ")
             self.presenter.remove_note(index)
-            print("\nЗаметка удалена\n")
+            print("\nЗаметка удалена!\n")
         else:
-            print("\nВ записной книжке нет записей!")
+            print("\nВ записной книжке нет заметок!")
 
     def change_note(self):
         """Метод для изменения заметки по индексу"""
@@ -39,20 +39,20 @@ class Console(View):
                                         "\nВведите номер заметки: ")
             update_note = input("\nОбновите заметку: ")
             self.presenter.change_note(index, update_note)
-            print("\nЗаметка изменена\n")
+            print("\nЗаметка изменена!\n")
         else:
-            print("\nВ записной книжке нет записей!")
+            print("\nВ записной книжке нет заметок!")
 
     def add_note(self):
         """Метод для добавления новой заметки"""
         new_note = input("\nВведите заметку: ")
         self.presenter.add_note(new_note)
-        print("\nЗаметка добавлена\n")
+        print("\nЗаметка добавлена!\n")
 
     def finish(self):
         """Завершение работы программы"""
         self.__working = False
-        print("\nЗавершение работы")
+        print("\nЗавершение работы...")
 
     def start(self):
         """
