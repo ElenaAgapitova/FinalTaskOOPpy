@@ -5,8 +5,6 @@ from view.commands.command_abstract import Command
 class CommandOpen(Command):
     """Данный класс реализует выполнения команды - заполнение записной книжки из файла"""
 
-    def __init__(self, console):
-        self.console = console
 
     @property
     def description(self):

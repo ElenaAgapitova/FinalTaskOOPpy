@@ -1,6 +1,5 @@
 """Модуль для взаимодействия с пользователем (консоль)"""
 from view.commands.menu import Menu
-from view.validator import Validator
 from view.view_abstract import View
 
 
@@ -32,15 +31,16 @@ class Console(View):
     def show_all(self):
         """Вывод всех заметок в консоль"""
         if self.presenter.is_full():
-            print(self.presenter.get_notebook())
+            print("\n\t\t\t\t\t\t\t\t\tСПИСОК ВСЕХ ЗАМЕТОК\n",
+                  self.presenter.get_tabl_notebook())
         else:
             print("\nЗаписная книжка не открыта или пуста!")
 
     def remove_note(self):
         """Метод для удаления заметки по номеру"""
         if self.presenter.is_full():
-            index = Validator.get_index(self.presenter.get_size_notebook(),
-                                        "\nВведите номер заметки: ")
+            index = self.__get_index(self.presenter.get_size_notebook(),
+                                     "\nВведите номер заметки: ")
             self.presenter.remove_note(index)
             self.__save = False
             print("\nЗаметка удалена!\n")
@@ -50,8 +50,8 @@ class Console(View):
     def change_note(self):
         """Метод для изменения заметки по индексу"""
         if self.presenter.is_full():
-            index = Validator.get_index(self.presenter.get_size_notebook(),
-                                        "\nВведите номер заметки: ")
+            index = self.__get_index(self.presenter.get_size_notebook(),
+                                     "\nВведите номер заметки: ")
             update_note = input("\nОбновите заметку: ")
             self.presenter.change_note(index, update_note)
             self.__save = False
@@ -92,5 +92,16 @@ class Console(View):
         menu = Menu(self)
         while self.__working:
             print(menu)
-            index = Validator.get_index(menu.get_size_menu(), "\nВыберите пункт меню: ")
+            index = self.__get_index(menu.get_size_menu(), "\nВыберите пункт меню: ")
             menu.execute(index)
+
+    @staticmethod
+    def __get_index(size, text):
+        """Возвращает индекс для списка заметок или меню"""
+        while True:
+            user_input = input(text)
+            if (user_input.isdigit() and
+                    1 <= int(user_input) <= size):
+                index = int(user_input) - 1
+                return index
+            print(f"\nВведите число от 1 до {size}")

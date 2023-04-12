@@ -45,6 +45,6 @@ class Presenter:
         """Возвращает размер записной книжки"""
         return self.__notebook.size()
 
-    def get_notebook(self):
+    def get_tabl_notebook(self):
         """Возвращает строковое представление записной книжки"""
-        return self.__notebook
+        return self.__notebook.get_tabl

@@ -5,9 +5,6 @@ from view.commands.command_abstract import Command
 class CommandAdd(Command):
     """Класс реализует добавление заметки"""
 
-    def __init__(self, console):
-        self.console = console
-
     @property
     def description(self):
         """Возвращает описание команды"""

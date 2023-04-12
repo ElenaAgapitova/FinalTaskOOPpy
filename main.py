@@ -7,5 +7,9 @@ from view.console import Console
 if __name__ == '__main__':
     model = Notebook()
     view = Console()
-    presenter = Presenter(view, model, 'notes.txt')
+    presenter = Presenter(view, model, 'notes.csv')
     view.start()
+
+
+
+

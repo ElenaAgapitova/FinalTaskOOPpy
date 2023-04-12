@@ -10,6 +10,9 @@ class Command(ABC):
         Атрибуты:
         ABC (класс): класс ABC из модуля abc, необходимый для создания абстрактных классов."""
 
+    def __init__(self, console):
+        self.console = console
+
     @abstractmethod
     def description(self):
         """Aбстрактный метод, который должен возвращать описание команды."""

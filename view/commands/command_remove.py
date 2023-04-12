@@ -5,8 +5,6 @@ from view.commands.command_abstract import Command
 class CommandRemove(Command):
     """Класс реализует удаление заметки"""
 
-    def __init__(self, console):
-        self.console = console
 
     @property
     def description(self):

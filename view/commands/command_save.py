@@ -5,9 +5,6 @@ from view.commands.command_abstract import Command
 class CommandSave(Command):
     """Данный класс реализует выполнения команды - сохранение изменений в записной книжке в файл"""
 
-    def __init__(self, console):
-        self.console = console
-
     @property
     def description(self):
         """Возвращает описание команды"""
