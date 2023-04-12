@@ -29,22 +29,27 @@ class Presenter:
         """
         return self.__notebook.is_full()
 
-    def add_note(self, text_note):
+    def add_note(self, title_text, text_note):
         """Добавляет новую запись в записную книжку."""
-        self.__notebook.add_note(text_note)
+        self.__notebook.add_note(title_text, text_note)
 
     def remove_note(self, index):
         """Удаляет запись в записной книжке по указанному индексу."""
-        self.__notebook.remove(index)
+        self.__notebook.remove_note(index)
 
-    def change_note(self, index, update_text):
+    def change_note(self, index, update_title, update_text):
         """Обновляет текст заметки в записной книжке"""
-        self.__notebook.change_note(index, update_text)
+        self.__notebook.change_note(index, update_title, update_text)
 
     def get_size_notebook(self):
         """Возвращает размер записной книжки"""
         return self.__notebook.size()
 
     def get_tabl_notebook(self):
-        """Возвращает строковое представление записной книжки"""
-        return self.__notebook.get_tabl
+        """Возвращает строковое представление записной книжки в виде таблицы"""
+        return self.__notebook.tabl
+
+    def get_filtered_tabl(self, date):
+        """Возвращает строковое представление записной книжки в виде таблицы,
+        отфильтрованной по дате"""
+        return self.__notebook.filter_by_date(date)

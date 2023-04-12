@@ -31,8 +31,17 @@ class Console(View):
     def show_all(self):
         """Вывод всех заметок в консоль"""
         if self.presenter.is_full():
-            print("\n\t\t\t\t\t\t\t\t\tСПИСОК ВСЕХ ЗАМЕТОК\n",
-                  self.presenter.get_tabl_notebook())
+            print("\n\t\t\t\t\t\t\t\t\tСПИСОК ВСЕХ ЗАМЕТОК",
+                  self.presenter.get_tabl_notebook(), sep='\n')
+        else:
+            print("\nЗаписная книжка не открыта или пуста!")
+
+    def show_filtered_notebook(self):
+        """Вывод заметок на экран, отфильтрованных по дате"""
+        if self.presenter.is_full():
+            date = input("Введите дату в формате дд.мм.гггг: ")
+            print(f"\n\t\t\t\t\t\t\tСПИСОК ВСЕХ ЗАМЕТОК ОТ {date}",
+                  self.presenter.get_filtered_tabl(date), sep='\n')
         else:
             print("\nЗаписная книжка не открыта или пуста!")
 
@@ -48,12 +57,13 @@ class Console(View):
             print("\nЗаписная книжка не открыта или пуста!")
 
     def change_note(self):
-        """Метод для изменения заметки по индексу"""
+        """Метод для изменения заметки по номеру"""
         if self.presenter.is_full():
             index = self.__get_index(self.presenter.get_size_notebook(),
                                      "\nВведите номер заметки: ")
-            update_note = input("\nОбновите заметку: ")
-            self.presenter.change_note(index, update_note)
+            update_title = input("\nОбновите заголовок заметки или нажмите ввод: ")
+            update_note = input("\nОбновите заметку или нажмите ввод: ")
+            self.presenter.change_note(index, update_title, update_note)
             self.__save = False
             print("\nЗаметка изменена!\n")
         else:
@@ -61,8 +71,9 @@ class Console(View):
 
     def add_note(self):
         """Метод для добавления новой заметки"""
+        new_title = input("\nВведите заголовок заметки: ")
         new_note = input("\nВведите заметку: ")
-        self.presenter.add_note(new_note)
+        self.presenter.add_note(new_title, new_note)
         print("\nЗаметка добавлена!\n")
         self.__save = False
 
@@ -70,18 +81,40 @@ class Console(View):
         """Завершение работы программы"""
         if self.__save:
             self.__working = False
-        else:
-            answer = input("\nСохранить изменения (да/нет)? ")
-            if answer.lower() == 'да':
+            print("\nЗавершение работы...")
+            return
+
+        answer = input("\nСохранить изменения (да/нет)? ").lower()
+
+        if answer == 'да' and self.__open:
+            self.presenter.save()
+            self.__save = True
+            print("\nИзменения сохранены")
+        elif answer == 'да' and not self.__open:
+            print("\nВы не открыли вашу записную книжку. В случае сохранения все "
+                  "предыдущие записи в ней будут удалены или переписаны.\n")
+            answer_2 = input("Подтвердите сохранение (да/нет): ").lower()
+            if answer_2 == 'да':
                 self.presenter.save()
-            self.__working = False
+                self.__save = True
+                print("\nИзменения сохранены")
+        self.__working = False
         print("\nЗавершение работы...")
 
     def save_changes(self):
         """Сохранение изменений"""
-        self.presenter.save()
-        self.__save = True
-        print("\nИзменения сохранены")
+        if not self.__open:
+            print("\nВы не открыли вашу записную книжку. В случае сохранения все "
+                  "предыдущие записи в ней будут удалены или переписаны.\n")
+            answer = input("Подтвердите сохранение (да/нет): ")
+            if answer.lower() == 'да':
+                self.presenter.save()
+                self.__save = True
+                print("\nИзменения сохранены")
+        else:
+            self.presenter.save()
+            self.__save = True
+            print("\nИзменения сохранены")
 
     def start(self):
         """

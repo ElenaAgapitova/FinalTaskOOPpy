@@ -1,4 +1,4 @@
-"""Модуль, реализующий класс FileReader (чтение и запись данных в файл в формате txt"""
+"""Модуль, реализующий класс FileReader (чтение и запись данных в файл в формате csv"""
 import csv
 
 from model.note import Note
@@ -18,8 +18,8 @@ class FileReader:
                 reader = csv.reader(data, delimiter=';')
                 for i, note_list in enumerate(reader):
                     if i:
-                        notebook.get_notes().append(Note(note_list[0], note_list[2], note_list[1],
-                                                         note_list[3]))
+                        notebook.get_notes().append(Note(note_list[1], note_list[3], note_list[2],
+                                                         note_list[4]))
         except FileNotFoundError:
             pass
         return notebook
@@ -28,7 +28,8 @@ class FileReader:
         """Запись заметок в файл"""
         with open(self.path, 'w', encoding='1251', newline='') as data:
             writer = csv.writer(data, delimiter=';')
-            writer.writerow(['Заголовок', 'Заметка', 'Дата/время создания', 'Дата/время изменения'])
-            for note in notebook.get_notes():
-                writer.writerow([note.get_title(), note.get_text_note(),
+            writer.writerow(['№', 'Заголовок', 'Заметка', 'Дата/время создания',
+                             'Дата/время изменения'])
+            for i, note in enumerate(notebook.get_notes(), start=1):
+                writer.writerow([i, note.get_title(), note.get_text_note(),
                                  note.get_creation_data(), note.get_changes_data()])

@@ -11,10 +11,11 @@ class Note:
         __creation_data (str): дата/время создания заметки.
         __changes_data (str): дата/время последнего изменения заметки
         Методы:
-        1. get_creation_data: возвращает дату и время создания заметки.
-        2. get_changes_data: возвращает дату и время последнего изменения заметки.
-        3. get_text_note: возвращает текст-содержание заметки.
-        4. change: изменение заметки.
+        1. get_title: возвращает заголовок заметки.
+        2. get_creation_data: возвращает дату и время создания заметки.
+        3. get_changes_data: возвращает дату и время последнего изменения заметки.
+        4. get_text_note: возвращает текст-содержание заметки.
+        5. change: изменение заметки.
     """
 
     def __init__(self, title, creation_data, text_note, changes_data=''):
@@ -24,6 +25,10 @@ class Note:
         self.__changes_data = changes_data
 
     def get_title(self):
+        """
+        Возвращает заголовок заметки.
+        :return: заголовок заметки.
+        """
         return self.__title
 
     def get_creation_data(self):
@@ -47,10 +52,14 @@ class Note:
         """
         return self.__text_note
 
-    def change(self, new_text: str):
+    def change(self, title: str, new_text: str):
         """
         Изменение текста и даты/время заметки.
+        :param title: текст заголовка.
         :param new_text: текст заметки.
         """
-        self.__text_note = new_text
+        if title:
+            self.__title = title
+        if new_text:
+            self.__text_note = new_text
         self.__changes_data = datetime.today().strftime('%d.%m.%Y %H:%M')

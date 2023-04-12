@@ -16,11 +16,11 @@ class Notebook:
         Методы и свойства:
         1. get_notes: возвращает список заметок.
         2. add_note: добавить новую заметку в записную книжку.
-        3. size: получить длину списка.
-        4. remove: удалить заметку из списка.
+        3. size: получить длину списка заметок.
+        4. remove_note: удалить заметку из списка.
         5. change_note: изменить заметку.
         6. is_full: проверить заполнена ли записная книжка.
-        7. get_tabl: возвращает содержание записной книжки в виде таблицы.
+        7. tabl: возвращает содержание записной книжки в виде таблицы.
     """
 
     def __init__(self):
@@ -35,13 +35,13 @@ class Notebook:
         note = Note(title, datetime.today().strftime('%d.%m.%Y %H:%M'), text_note)
         self.__notes.append(note)
 
-    def remove(self, index):
+    def remove_note(self, index):
         """Удалить заметку из книжки"""
         del self.__notes[index]
 
-    def change_note(self, index, update_text):
+    def change_note(self, index, title, update_text):
         """Изменить заметку в книжке"""
-        self.__notes[index].change(update_text)
+        self.__notes[index].change(title, update_text)
 
     def is_full(self):
         """Возвращает True, если в записной книжке есть записи"""
@@ -52,14 +52,25 @@ class Notebook:
         return self.__notes
 
     @property
-    def get_tabl(self):
+    def tabl(self):
         """
         Формирует представление записной книжки в виде таблицы.
         :return: таблицу заметок.
         """
         headers = ['№', 'Заголовок', 'Заметка', 'Дата/время создания', 'Дата/время изменения']
-        tabl = []
-        for i, note in enumerate(self.__notes, start=1):
-            tabl.append([i, note.get_title(), note.get_text_note(),
-                         note.get_creation_data(), note.get_changes_data()])
-        return tabulate(tabl, headers=headers, tablefmt="grid")
+        tabl = [[i, note.get_title(), note.get_text_note(),
+                 note.get_creation_data(), note.get_changes_data()]
+                for i, note in enumerate(self.__notes, start=1)]
+        return tabulate(tabl, headers=headers, tablefmt="fancy_grid", stralign='center')
+
+    def filter_by_date(self, date):
+        """
+        Фильтрует заметки по дате, формирует представление записной книжки в виде таблицы.
+        :param date: дата, по которой необходимо сделать выборку заметок.
+        :return: таблицу заметок.
+        """
+        headers = ['№', 'Заголовок', 'Заметка', 'Дата/время создания', 'Дата/время изменения']
+        tabl = [[i, note.get_title(), note.get_text_note(), note.get_creation_data(),
+                 note.get_changes_data()] for i, note in enumerate(self.__notes, start=1)
+                if date in note.get_creation_data() or date in note.get_changes_data()]
+        return tabulate(tabl, headers=headers, tablefmt="fancy_grid", stralign='center')
